@@ -184,12 +184,30 @@ export async function fetchNurseryData(): Promise<NurseryData> {
 
   for (let i = 0; i < 3; i++) {
     const col = i + 1;
+    const annualQuantity = getVal("Annual Quantity", col);
+    const pnlSellingPrice = getVal("Selling Price", col);
+    // Fix: Lagerstroemia's Total Revenue in the P&L sheet is incorrect because
+    // the P&L uses an outdated selling price (111) instead of the canonical
+    // value from Sales_Pricing (113). Recompute Total Revenue for Lagerstroemia
+    // using the Sales_Pricing value: annualQuantity × sellingPrice.
+    const sheetTotalRevenue = getVal("Total Revenue", col);
+    const salesPriceEntry = salesPricing.find(
+      (s) => s.productName === products[i]
+    );
+    const sellingPrice =
+      products[i] === "Lagerstroemia" && salesPriceEntry
+        ? salesPriceEntry.sellingPrice
+        : pnlSellingPrice;
+    const totalRevenue =
+      products[i] === "Lagerstroemia"
+        ? annualQuantity * sellingPrice
+        : sheetTotalRevenue;
     pnl.push({
       productName: products[i],
-      annualQuantity: getVal("Annual Quantity", col),
-      sellingPrice: getVal("Selling Price", col),
+      annualQuantity,
+      sellingPrice,
       productSalesRevenue: getVal("Product Sales Revenue", col),
-      totalRevenue: getVal("Total Revenue", col),
+      totalRevenue,
       productionLaborCost: getVal("Production Labor", col),
       seedMaterialCost: getVal("Seed & Material", col),
       depreciationLoss: getVal("Depreciation", col),
