@@ -9,6 +9,10 @@ import FixedCostsBreakdown from "@/components/metrics/FixedCostsBreakdown";
 import LaborCosts from "@/components/metrics/LaborCosts";
 import EfficiencyTable from "@/components/metrics/EfficiencyTable";
 import ExchangeRates from "@/components/metrics/ExchangeRates";
+import PricingBreakdown from "@/components/metrics/PricingBreakdown";
+import FxSensitivity from "@/components/metrics/FxSensitivity";
+import TaxAndNetProfit from "@/components/metrics/TaxAndNetProfit";
+import WorkforceAndWage from "@/components/metrics/WorkforceAndWage";
 import RefreshButton from "@/components/RefreshButton";
 
 export const dynamic = "force-dynamic";
@@ -44,20 +48,32 @@ export default async function Dashboard() {
           <GrowthAnalysis data={data} />
         </div>
 
-        {/* Row 2: Product Profitability Table */}
+        {/* Row 2: Tax & Net Profit + Pricing Breakdown */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TaxAndNetProfit data={data} />
+          <PricingBreakdown data={data} />
+        </div>
+
+        {/* Row 3: Product Profitability Table */}
         <ProductProfitability data={data} />
 
-        {/* Row 3: Cost Analysis */}
+        {/* Row 4: Cost Analysis */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <CostPerUnit data={data} />
           <FixedCostsBreakdown data={data} />
           <LaborCosts data={data} />
         </div>
 
-        {/* Row 4: Efficiency Tables */}
+        {/* Row 5: FX Sensitivity + Workforce */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <FxSensitivity data={data} />
+          <WorkforceAndWage data={data} />
+        </div>
+
+        {/* Row 6: Efficiency Tables */}
         <EfficiencyTable products={products} />
 
-        {/* Row 5: Exchange Rates */}
+        {/* Row 7: Exchange Rates */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <ExchangeRates data={data} />
         </div>
