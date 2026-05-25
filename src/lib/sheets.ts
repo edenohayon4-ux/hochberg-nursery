@@ -377,16 +377,29 @@ export async function fetchNurseryData(): Promise<NurseryData> {
     };
   });
 
+  // Exchange Rates: only the first 3 data rows hold real FX values
+  // (Euro/USD/GBP from GOOGLEFINANCE). Everything after is an explanatory
+  // sub-table for the spreadsheet user. The "Code" column is sometimes
+  // empty in the live sheet, so we derive it from the currency name.
+  const currencyCodeMap: Record<string, string> = {
+    "Euro": "EUR",
+    "US Dollar": "USD",
+    "British Pound": "GBP",
+  };
   const exchangeRates: ExchangeRate[] = fxRaw
     .slice(1)
-    .filter((r) => r.length >= 4 && r[0] && !r[0].includes("השפעת") && !r[0].includes("שער") && !r[0].includes("הכנסות") && !r[0].includes("רווח") && !r[0].includes("מס") && !r[0].includes("שיעור") && !r[0].includes("מדד") && !r[0].includes("לתרחישי"))
-    .map((r) => ({
-      currency: r[0].replace(/"/g, ""),
-      code: r[1].replace(/"/g, ""),
-      rate: parseNumber(r[2]),
-      lastUpdated: r[3].replace(/"/g, ""),
-    }))
-    .filter((r) => r.code && r.code.length <= 4 && r.rate > 0);
+    .map((r) => {
+      const currency = (r[0] || "").replace(/"/g, "").trim();
+      const codeFromSheet = (r[1] || "").replace(/"/g, "").trim();
+      const code = codeFromSheet || currencyCodeMap[currency] || "";
+      return {
+        currency,
+        code,
+        rate: parseNumber(r[2]),
+        lastUpdated: (r[3] || "").replace(/"/g, ""),
+      };
+    })
+    .filter((r) => !!currencyCodeMap[r.currency] && r.rate > 0);
 
   // Sales_Pricing is derived from Pricing_Components (we don't fetch a separate sheet)
   const salesPricing: SalesPricing[] = pricing.map((p) => ({

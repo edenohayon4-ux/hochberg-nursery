@@ -1,12 +1,33 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+function formatDateTime(d: Date): string {
+  const date = d.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+  const time = d.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+  return `${date} · ${time}`;
+}
 
 export default function RefreshButton() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  // null on first render to avoid hydration mismatch — set on mount.
   const [lastRefresh, setLastRefresh] = useState<string | null>(null);
+
+  // Initialize with current date/time when component mounts.
+  useEffect(() => {
+    setLastRefresh(formatDateTime(new Date()));
+  }, []);
 
   async function handleRefresh() {
     setLoading(true);
@@ -16,7 +37,7 @@ export default function RefreshButton() {
       if (!res.ok) throw new Error("Refresh failed");
       // Refresh the server component page
       router.refresh();
-      setLastRefresh(new Date().toLocaleTimeString());
+      setLastRefresh(formatDateTime(new Date()));
     } catch {
       alert("Failed to refresh data. Please try again.");
     } finally {
@@ -27,7 +48,9 @@ export default function RefreshButton() {
   return (
     <div className="flex items-center gap-3">
       {lastRefresh && (
-        <span className="text-xs text-gray-400">Last refresh: {lastRefresh}</span>
+        <span className="text-xs text-gray-500 font-mono">
+          Last refresh: {lastRefresh}
+        </span>
       )}
       <button
         onClick={handleRefresh}
