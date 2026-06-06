@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { getInsight, getSnapshot, saveInsight, Insight } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +24,7 @@ export async function GET(_req: Request, ctx: Ctx) {
   }
 }
 
-// POST /api/insights/[id] — generate AI insights for the given snapshot.
+// POST /api/insights/[id] — generate AI insights via Google Gemini.
 export async function POST(_req: Request, ctx: Ctx) {
   const { id } = await ctx.params;
   try {
@@ -33,17 +33,15 @@ export async function POST(_req: Request, ctx: Ctx) {
       return NextResponse.json({ error: "Snapshot not found" }, { status: 404 });
     }
 
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: "ANTHROPIC_API_KEY is not configured on the server" },
+        { error: "GEMINI_API_KEY is not configured on the server" },
         { status: 500 }
       );
     }
 
-    const client = new Anthropic({ apiKey });
-
-    // ---- Build a tight summary of the snapshot for the LLM ----
+    // ---- Build a tight summary for the LLM ----
     const d = snapshot.data;
     const summaryForLLM = {
       capturedAt: snapshot.savedAt,
@@ -76,17 +74,16 @@ export async function POST(_req: Request, ctx: Ctx) {
       currentFxRate: d.exchangeRates.find((e) => e.code === "EUR")?.rate,
     };
 
-    const systemPrompt = `אתה יועץ ניהולי בכיר המתמחה בכלכלה חקלאית ובתמחור מבוסס פעילות (ABC).
-משתלת הוכברג היא משתלת עצי נוי ישראלית המייצאת לאירופה. אתה מקבל סנאפשוט של נתוני המשק וצריך לייצר ניתוח ניהולי קצר וחד.
+    const prompt = `אתה יועץ ניהולי בכיר המתמחה בכלכלה חקלאית ובתמחור מבוסס פעילות (ABC). משתלת הוכברג היא משתלת עצי נוי ישראלית המייצאת לאירופה. אתה מקבל סנאפשוט של נתוני המשק וצריך לייצר ניתוח ניהולי קצר וחד.
 
 חוקי כתיבה:
 - כתוב בעברית מקצועית, ללא קלישאות
 - אל תמציא מספרים — השתמש רק במה שמופיע בנתונים
 - כל נקודה צריכה להיות ספציפית, פעולה-תכליתית, וניתנת ליישום
 - הימנע ממילים כמו "כדאי לשקול" — תכתוב המלצה ברורה
-- כל פריט: עד שתי שורות`;
+- כל פריט: עד שתי שורות
 
-    const userPrompt = `הנה סנאפשוט מנתוני משתלת הוכברג:
+הנה סנאפשוט מנתוני משתלת הוכברג:
 
 ${JSON.stringify(summaryForLLM, null, 2)}
 
@@ -108,27 +105,35 @@ ${JSON.stringify(summaryForLLM, null, 2)}
   ]
 }
 
-החזר רק את ה-JSON, ללא טקסט נוסף לפניו או אחריו.`;
+החזר רק את ה-JSON, ללא טקסט נוסף.`;
 
-    const response = await client.messages.create({
-      model: "claude-sonnet-4-5",
-      max_tokens: 2000,
-      system: systemPrompt,
-      messages: [{ role: "user", content: userPrompt }],
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash-exp",
+      generationConfig: {
+        temperature: 0.4,
+        responseMimeType: "application/json",
+      },
     });
 
-    const textBlock = response.content.find((b) => b.type === "text");
-    const rawText = textBlock?.type === "text" ? textBlock.text : "";
+    const result = await model.generateContent(prompt);
+    const rawText = result.response.text();
 
-    // Parse the JSON the LLM produced (it may be wrapped in code fences)
-    const jsonMatch = rawText.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      return NextResponse.json(
-        { error: "AI response did not contain valid JSON", raw: rawText },
-        { status: 500 }
-      );
+    // Parse JSON (Gemini in JSON mode returns clean JSON)
+    let parsed;
+    try {
+      parsed = JSON.parse(rawText);
+    } catch {
+      // Fallback — extract JSON substring
+      const match = rawText.match(/\{[\s\S]*\}/);
+      if (!match) {
+        return NextResponse.json(
+          { error: "AI response did not contain valid JSON", raw: rawText.slice(0, 300) },
+          { status: 500 }
+        );
+      }
+      parsed = JSON.parse(match[0]);
     }
-    const parsed = JSON.parse(jsonMatch[0]);
 
     const insight: Insight = {
       snapshotId: id,
