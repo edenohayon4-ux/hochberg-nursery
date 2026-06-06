@@ -17,16 +17,16 @@ export default function WorkforceAndWage({ data }: { data: NurseryData }) {
         <div className="flex items-baseline justify-between">
           <span className="text-xs text-gray-500 uppercase">Loaded Cost / Hr</span>
           <span className="text-2xl font-bold text-gray-900">
-            {wageBuildup.loadedHourlyCost.toFixed(2)} ₪
+            {wageBuildup.loadedHourlyCost.toFixed(2)} ILS
           </span>
         </div>
         <div className="flex items-baseline justify-between mt-2 text-sm">
           <span className="text-gray-500">
-            Base {wageBuildup.basePay.toFixed(2)} ₪ + Loading{" "}
+            Base {wageBuildup.basePay.toFixed(2)} ILS + Loading{" "}
             {(wageBuildup.totalLoadingPct * 100).toFixed(1)}%
           </span>
           <span className="text-gray-700 font-medium">
-            +{wageBuildup.totalLoadingAmount.toFixed(2)} ₪
+            +{wageBuildup.totalLoadingAmount.toFixed(2)} ILS
           </span>
         </div>
       </div>
@@ -82,7 +82,7 @@ export default function WorkforceAndWage({ data }: { data: NurseryData }) {
               >
                 <span className="truncate">{c.component}</span>
                 <span className="text-gray-800 font-mono">
-                  +{c.amountPerHour.toFixed(2)} ₪
+                  +{c.amountPerHour.toFixed(2)} ILS
                 </span>
               </div>
             ))}

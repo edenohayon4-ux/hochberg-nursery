@@ -18,12 +18,12 @@ export default function PricingBreakdown({ data }: { data: NurseryData }) {
           <thead>
             <tr className="border-b border-gray-200 text-xs uppercase text-gray-500">
               <th className="text-left py-2 pr-3">Product</th>
-              <th className="text-right py-2 px-2">Base ₪</th>
+              <th className="text-right py-2 px-2">Base ILS</th>
               <th className="text-right py-2 px-2">Premium</th>
               <th className="text-right py-2 px-2">Discount</th>
               <th className="text-right py-2 px-2">Export</th>
               <th className="text-right py-2 px-2">FX Impact</th>
-              <th className="text-right py-2 pl-2">Final ₪</th>
+              <th className="text-right py-2 pl-2">Final ILS</th>
             </tr>
           </thead>
           <tbody>
