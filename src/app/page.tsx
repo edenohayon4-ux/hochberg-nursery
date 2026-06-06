@@ -3,8 +3,6 @@ import TotalRevenue from "@/components/metrics/TotalRevenue";
 import ProfitMargin from "@/components/metrics/ProfitMargin";
 import ProductProfitability from "@/components/metrics/ProductProfitability";
 import CostPerUnit from "@/components/metrics/CostPerUnit";
-import ConversionRate from "@/components/metrics/ConversionRate";
-import GrowthAnalysis from "@/components/metrics/GrowthAnalysis";
 import FixedCostsBreakdown from "@/components/metrics/FixedCostsBreakdown";
 import LaborCosts from "@/components/metrics/LaborCosts";
 import EfficiencyTable from "@/components/metrics/EfficiencyTable";
@@ -12,7 +10,6 @@ import ExchangeRates from "@/components/metrics/ExchangeRates";
 import PricingBreakdown from "@/components/metrics/PricingBreakdown";
 import FxSensitivity from "@/components/metrics/FxSensitivity";
 import TaxAndNetProfit from "@/components/metrics/TaxAndNetProfit";
-import WorkforceAndWage from "@/components/metrics/WorkforceAndWage";
 import DirectCostPerUnit from "@/components/management/DirectCostPerUnit";
 import ContributionMargin from "@/components/management/ContributionMargin";
 import ProfitabilityAnalysis from "@/components/management/ProfitabilityAnalysis";
@@ -37,14 +34,16 @@ export default async function Dashboard() {
   const products = [efficiency.cercis, efficiency.albizia, efficiency.lagerstroemia];
 
   // ===== Main Dashboard tab =====
+  // Removed (duplicates):
+  //  - ConversionRate (waste info already in Cost Per Unit + Product Profitability)
+  //  - GrowthAnalysis (profit-per-unit in Product Profitability, revenue share in Total Revenue)
+  //  - WorkforceAndWage (FTE per product already in Labor Costs)
   const mainContent = (
     <div className="space-y-6">
-      {/* Row 1: Key KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Row 1: Top KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <TotalRevenue data={data} />
         <ProfitMargin data={data} />
-        <ConversionRate data={data} />
-        <GrowthAnalysis data={data} />
       </div>
 
       {/* Row 2: Tax & Net Profit + Pricing Breakdown */}
@@ -63,19 +62,14 @@ export default async function Dashboard() {
         <LaborCosts data={data} />
       </div>
 
-      {/* Row 5: FX Sensitivity + Workforce */}
+      {/* Row 5: FX Sensitivity + Exchange Rates */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <FxSensitivity data={data} />
-        <WorkforceAndWage data={data} />
-      </div>
-
-      {/* Row 6: Efficiency Tables */}
-      <EfficiencyTable products={products} />
-
-      {/* Row 7: Exchange Rates */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <ExchangeRates data={data} />
       </div>
+
+      {/* Row 6: Efficiency Tables (per-action ABC breakdown) */}
+      <EfficiencyTable products={products} />
     </div>
   );
 
