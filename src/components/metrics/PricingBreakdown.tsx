@@ -8,9 +8,8 @@ export default function PricingBreakdown({ data }: { data: NurseryData }) {
       <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
         Selling Price Build-Up (EUR)
       </h3>
-      <p className="mt-1 text-xs text-gray-400">
-        Final price = Base × (1 + Quality Premium) × (1 + Contract Discount) ×
-        (1 + FX Impact). All formulas live in code.
+      <p dir="rtl" className="mt-1 text-xs text-gray-400 text-right">
+        מחיר סופי = בסיס × (1 + פרמיית איכות) × (1 + הנחת חוזה) × (1 + השפעת מט&quot;ח). כל הנוסחאות חיות בקוד.
       </p>
 
       <div className="mt-4 overflow-x-auto">
@@ -64,9 +63,8 @@ export default function PricingBreakdown({ data }: { data: NurseryData }) {
         </table>
       </div>
 
-      <p className="mt-3 text-xs text-gray-400">
-        Base FX = {pricing[0]?.baseFxRate.toFixed(2)} EUR/NIS &middot;
-        Current FX = {pricing[0]?.currentFxRate.toFixed(2)} EUR/NIS
+      <p dir="rtl" className="mt-3 text-xs text-gray-400 text-right">
+        שער בסיס = {pricing[0]?.baseFxRate.toFixed(2)} EUR/NIS &middot; שער נוכחי = {pricing[0]?.currentFxRate.toFixed(2)} EUR/NIS
       </p>
     </div>
   );

@@ -6,9 +6,12 @@ export default function ProductProfitability({ data }: { data: NurseryData }) {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 col-span-full">
-      <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">
+      <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
         Product Profitability Analysis
       </h3>
+      <p dir="rtl" className="mt-1 mb-4 text-xs text-gray-400 text-right">
+        השוואת רווחיות מלאה לכל זן — כולל הכנסות, COGS, רווח נטו, ושיעור רווחיות
+      </p>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>

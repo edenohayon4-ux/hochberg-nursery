@@ -26,6 +26,9 @@ export default function CostPerUnit({ data }: { data: NurseryData }) {
       <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
         Cost vs. Selling Price (Per Unit)
       </h3>
+      <p dir="rtl" className="mt-1 text-xs text-gray-400 text-right">
+        עלות הייצור הכוללת ליחידה מול מחיר המכירה. הפס הצבעוני מראה את היחס ביניהם.
+      </p>
       <div className="mt-4 space-y-4">
         {products.map((p) => (
           <div key={p.name}>

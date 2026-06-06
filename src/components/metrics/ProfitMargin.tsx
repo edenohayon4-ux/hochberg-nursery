@@ -9,6 +9,9 @@ export default function ProfitMargin({ data }: { data: NurseryData }) {
       <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
         Profit Margin
       </h3>
+      <p dir="rtl" className="mt-1 text-xs text-gray-400 text-right">
+        שיעור הרווח הנקי הכולל לאחר מס חברות
+      </p>
       <p className="mt-2 text-3xl font-bold text-emerald-600">
         {formatPercent(totals.overallProfitMargin)}
       </p>

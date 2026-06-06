@@ -9,9 +9,8 @@ export default function TaxAndNetProfit({ data }: { data: NurseryData }) {
       <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
         Tax & Net Profit ({(corporateTaxRate * 100).toFixed(0)}% Corporate Tax)
       </h3>
-      <p className="mt-1 text-xs text-gray-400">
-        Tax = max(0, pre-tax profit) × {(corporateTaxRate * 100).toFixed(0)}%.
-        Loss-making products pay 0 tax.
+      <p dir="rtl" className="mt-1 text-xs text-gray-400 text-right">
+        מס חברות = max(0, רווח לפני מס) × {(corporateTaxRate * 100).toFixed(0)}%. מוצרים הפסדיים אינם משלמים מס.
       </p>
 
       <div className="mt-4 grid grid-cols-3 gap-3">

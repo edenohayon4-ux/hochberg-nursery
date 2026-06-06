@@ -8,9 +8,12 @@ export default function EfficiencyTable({
 }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 col-span-full">
-      <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">
+      <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
         Production Efficiency by Crop
       </h3>
+      <p dir="rtl" className="mt-1 mb-4 text-xs text-gray-400 text-right">
+        פירוק ABC: כל פעולה ייצורית לכל זן — יחידות לשעה, סך שעות עבודה, ועלות כוללת
+      </p>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {products.map((product) => (
           <div key={product.productId} className="border border-gray-100 rounded-xl p-4">

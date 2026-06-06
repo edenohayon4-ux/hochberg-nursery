@@ -11,6 +11,9 @@ export default function FixedCostsBreakdown({ data }: { data: NurseryData }) {
       <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
         Fixed Costs Breakdown
       </h3>
+      <p dir="rtl" className="mt-1 text-xs text-gray-400 text-right">
+        פירוט קטגוריות העלויות הקבועות השנתיות (הקצאה של 70% משטח הגידול ל-3 הזנים)
+      </p>
       <p className="mt-2 text-2xl font-bold text-gray-900">
         {formatNIS(totals.totalFixedCosts)}
       </p>

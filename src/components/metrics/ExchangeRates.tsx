@@ -9,6 +9,9 @@ export default function ExchangeRates({ data }: { data: NurseryData }) {
       <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
         Exchange Rates (NIS)
       </h3>
+      <p dir="rtl" className="mt-1 text-xs text-gray-400 text-right">
+        שערי חליפין חיים, נמשכים אוטומטית מ-GOOGLEFINANCE בגיליון
+      </p>
       <div className="mt-4 space-y-3">
         {exchangeRates.map((rate) => (
           <div

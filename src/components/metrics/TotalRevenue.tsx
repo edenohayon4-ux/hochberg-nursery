@@ -9,6 +9,9 @@ export default function TotalRevenue({ data }: { data: NurseryData }) {
       <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
         Total Revenue
       </h3>
+      <p dir="rtl" className="mt-1 text-xs text-gray-400 text-right">
+        סך ההכנסות השנתיות מכלל שלושת הזנים
+      </p>
       <p className="mt-2 text-3xl font-bold text-gray-900">
         {formatNIS(totals.totalRevenue)}
       </p>

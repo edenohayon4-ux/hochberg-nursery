@@ -16,9 +16,8 @@ export default function FxSensitivity({ data }: { data: NurseryData }) {
       <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
         FX Sensitivity (EUR/NIS)
       </h3>
-      <p className="mt-1 text-xs text-gray-400">
-        Net profit at different EUR/NIS rates, recomputed in code.
-        Base = {baseRate.toFixed(2)} &middot; Current = {currentRate.toFixed(2)}
+      <p dir="rtl" className="mt-1 text-xs text-gray-400 text-right">
+        רווח נקי בתרחישי שערים שונים של EUR/NIS, מחושב מחדש בקוד. שער בסיס = {baseRate.toFixed(2)} &middot; שער נוכחי = {currentRate.toFixed(2)}
       </p>
 
       <div className="mt-4 space-y-2">
@@ -63,9 +62,8 @@ export default function FxSensitivity({ data }: { data: NurseryData }) {
         })}
       </div>
 
-      <p className="mt-3 text-xs text-gray-400">
-        ★ = current FX rate. Every column above is a hypothetical scenario —
-        revenue is rebuilt from base price × premium × discount × FX impact.
+      <p dir="rtl" className="mt-3 text-xs text-gray-400 text-right">
+        ★ = השער הנוכחי. כל שורה למעלה היא תרחיש היפותטי — ההכנסות מחושבות מחדש לפי מחיר בסיס × פרמיה × הנחה × השפעת מט&quot;ח.
       </p>
     </div>
   );

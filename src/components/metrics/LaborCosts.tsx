@@ -9,6 +9,9 @@ export default function LaborCosts({ data }: { data: NurseryData }) {
       <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
         Annual Labor Costs
       </h3>
+      <p dir="rtl" className="mt-1 text-xs text-gray-400 text-right">
+        עלות עבודה שנתית כוללת לכל זן (עבודת גידול שוטפת + פעולות ייצור)
+      </p>
       <p className="mt-2 text-2xl font-bold text-gray-900">
         {formatNIS(totals.totalLaborCost)}
       </p>

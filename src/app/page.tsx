@@ -21,10 +21,10 @@ import Tabs, { TabDef } from "@/components/Tabs";
 export const dynamic = "force-dynamic";
 
 const TAB_DEFS: TabDef[] = [
-  { id: "main", label: "📊 דשבורד ראשי" },
-  { id: "management", label: "💼 דשבורד ניהולי" },
-  { id: "history", label: "🕒 היסטוריית דאטה" },
-  { id: "insights", label: "💡 תובנות ניהוליות" },
+  { id: "main", label: "📊 Main Dashboard" },
+  { id: "management", label: "💼 Management Dashboard" },
+  { id: "history", label: "🕒 Data History" },
+  { id: "insights", label: "💡 Management Insights" },
 ];
 
 export default async function Dashboard() {
