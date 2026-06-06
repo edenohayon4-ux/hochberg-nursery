@@ -16,8 +16,8 @@ import WorkforceAndWage from "@/components/metrics/WorkforceAndWage";
 import DirectCostPerUnit from "@/components/management/DirectCostPerUnit";
 import ContributionMargin from "@/components/management/ContributionMargin";
 import ProfitabilityAnalysis from "@/components/management/ProfitabilityAnalysis";
-import HistoryPlaceholder from "@/components/HistoryPlaceholder";
-import InsightsPlaceholder from "@/components/InsightsPlaceholder";
+import HistoryView from "@/components/HistoryView";
+import InsightsView from "@/components/InsightsView";
 import RefreshButton from "@/components/RefreshButton";
 import Tabs, { TabDef } from "@/components/Tabs";
 
@@ -119,8 +119,8 @@ export default async function Dashboard() {
         {{
           main: mainContent,
           management: managementContent,
-          history: <HistoryPlaceholder />,
-          insights: <InsightsPlaceholder />,
+          history: <HistoryView />,
+          insights: <InsightsView />,
         }}
       </Tabs>
 
