@@ -177,15 +177,6 @@ export default function InsightsView() {
                         🤖 ה-AI חושב…
                       </span>
                     )}
-                    {insight && (
-                      <button
-                        onClick={() => generate(s.id)}
-                        className="inline-flex items-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200"
-                        title="הפק תובנות חדשות"
-                      >
-                        🔄 רענון
-                      </button>
-                    )}
                     <p className="text-sm font-mono text-gray-500">
                       📅 {formatDateTime(s.savedAt)}
                     </p>

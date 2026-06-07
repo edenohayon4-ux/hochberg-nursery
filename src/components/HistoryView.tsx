@@ -109,14 +109,7 @@ export default function HistoryView() {
 
   return (
     <div dir="rtl" className="space-y-6 text-right">
-      <div className="bg-gradient-to-l from-blue-50 to-cyan-50 rounded-2xl p-5 border border-blue-100 flex items-center justify-between gap-3 flex-row-reverse">
-        <button
-          onClick={refresh}
-          disabled={loading}
-          className="inline-flex items-center gap-1 px-3 py-2 bg-white text-blue-700 text-sm font-medium rounded-lg border border-blue-200 hover:bg-blue-50 disabled:opacity-50"
-        >
-          🔄 רענון
-        </button>
+      <div className="bg-gradient-to-l from-blue-50 to-cyan-50 rounded-2xl p-5 border border-blue-100">
         <div className="text-right">
           <h2 className="text-lg font-bold text-gray-900">היסטוריית דאטה</h2>
           <p className="text-sm text-gray-600 mt-1">
